@@ -21,6 +21,14 @@ module KaudeeJob
     # config.i18n.default_locale = :de
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
-    config.active_record.raise_in_transactional_callbacks = true
+    config.encoding = "utf-8"
+
+    # For Foundation 5
+    config.assets.precompile += %w( vendor/modernizr )
+    config.middleware.use Rack::MethodOverride
+    config.assets.paths << "#{Rails}/vendor/assets/fonts"
+
+
+    config.middleware.use ActionDispatch::Flash
   end
 end

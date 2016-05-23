@@ -1,0 +1,45 @@
+<h1><%= @title %></h1>
+<% if @models  and @models.length > 0%>
+<table class='table table-condensed'>
+  <thead>
+    <tr class='active'>
+      <% @models[0].attributes.each do |attr_name, attr_value| %>
+        <% if attr_name != 'password' %>
+        <th><%= attr_name %></th>
+        <% end %>
+      <% end %>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @models.each do |model| %>
+    <tr>
+      <% model.attributes.each do |attr_name, attr_value| %>
+        <% if attr_name == 'id' %>
+        <td><a href='/<%=@prefix%>/<%=attr_value%>'><span class='btn btn-xs btn-primary'><%= attr_value %></span></a>
+          <% if model.empno != nil %>
+            <i class='glyphicon glyphicon-briefcase'></i>
+          <% end %>
+        </td>
+        <% elsif attr_name != 'password' %>
+        <td><%= attr_value %></td>
+        <% end%>
+      <% end %>
+      <td>
+        <a href='/<%= @prefix %>/<%= model.id %>' class='btn btn-xs btn-danger btn-remove' data-confirm='really?' data-method='delete' rel='nofollow'>remove</a>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="<%= @models[0].attributes.count()+1 %>" align="center"><%= will_paginate @models, :style => 'color:blue' %></td>
+    </tr>
+  </tfoot>
+</table>
+
+<% end %>
+
+<div class='buttons'>
+  <a href='/<%=@prefix%>/new' class='btn btn-success'>New</a>
+</div>

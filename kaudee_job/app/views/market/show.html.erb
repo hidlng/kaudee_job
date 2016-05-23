@@ -1,0 +1,96 @@
+<h1>Market Detail</h1>
+<table class='table table-bordered'>
+<tbody>
+  <tr>
+    <th>Market Name</th>
+    <th>Keyword</th>
+    <th>Category</th>
+  </tr>
+  <tr>
+    <td><%= @model.marketname %> </td>
+    <td><%= @model.keyword %></td>
+    <td>
+      <span class="label label-primary"><%= @model.category1 %></span>
+      <span class="label label-primary"><%= @model.category2 %></span>
+    </td>
+  </tr>
+  <tr>
+    <th>City</th>
+    <th>District</th>
+    <th colspan="2">Address</th>
+  </tr>
+  <tr>
+    <td><%= @model.city %></td>
+    <td><%= @model.district %></td>
+    <td colspan="2"><%= @model.address %></td>
+  </tr>
+  <tr>
+    <th>Open ~ Close</th>
+    <th>Open ~ Close</th>
+    <th>Open ~ Close</th>
+  </tr>
+  <tr>
+    <td><%= @model.open1 %> ~ <%= @model.close1 %> (<%= @model.desc1 %>)</td>
+    <td><%= @model.open2 %> ~ <%= @model.close2 %> (<%= @model.desc2 %>)</td>
+    <td><%= @model.open3 %> ~ <%= @model.close3 %> (<%= @model.desc3 %>)</td>
+  </tr>
+  <tr>
+    <th>Fax</th>
+    <th>Cellphone</th>
+    <th>Tel</th>
+  </tr>
+  <tr>
+    <td><%= @model.fax %></td>
+    <td><%= @model.cellphone %></td>
+    <td><%= @model.tel %>, <%= @model.tel2 %></td>
+  </tr>
+  <tr>
+    <th>Email</th>
+    <th>Homepage</th>
+    <th>Position</th>
+  </tr>
+  <tr>
+    <td><%= @model.email %></td>
+    <td><%= @model.homepage %></td>
+    <td>(<%= @model.latitude %>, <%= @model.longitude %>)</td>
+  </tr>
+  <tr>
+    <th colspan="3">Detail</th>
+  </tr>
+  <tr>
+    <td colspan="3">
+      <pre><%= @model.detail_eng %></pre>
+      <pre><%= @model.detail_lao %></pre>
+    </td>
+  </tr>
+  <tr>
+    <th>Enable</th>
+    <td colspan="2"><%= @model.enable %></td>
+  </tr>
+  <tr>
+    <th>Image</th>
+    <td colspan="2">
+    <% @model.image.each do |image| %>
+      <img src="<%= image.img %>" width="70%"/><br />
+    <% end %>
+    </td>
+  </tr>
+</tbody>
+<tfoot>
+  <tr>
+    <td>
+      <a class='btn btn-success' href='/<%= @prefix %>/<%= @model.id %>/edit'>Edit</a>
+      <a class='btn btn-danger' data-confirm='really?' data-method='delete' href='/<%= @prefix %>/<%= @model.id %>'>Delete</a>
+    </td>
+    <th>Enable</th>
+    <td>
+      <div class='label label-primary'><%= @model.enable %></div>
+
+      <div>
+        <a class='btn btn-success' href='/<%= @prefix %>/enable?market_id=<%= @model.id %>'>Enable</a>
+        <a class='btn btn-danger' href='/<%= @prefix %>/disable?market_id=<%= @model.id %>'>Disable</a>
+      </div>
+    </td>
+  </tr>
+  <tfoot>
+<table>

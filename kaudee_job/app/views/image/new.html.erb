@@ -1,0 +1,21 @@
+<h1><%= @title %></h1>
+<form action='/<%= @prefix %>' method='post' enctype="multipart/form-data">
+<table class='table table-condensed'>
+  <tbody>
+    <tr>
+      <th>market_id</th>
+      <td><input type='text' class='form-control' value='' name='market_id' /></td>
+    </tr>
+    <tr>
+      <th>image</th>
+      <td><input type='file' class='form-control' value='' name='img' /></td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td></td>
+      <td><input class='btn btn-success' type='submit' /></td>
+    </tr>
+  </tfoot>
+</table>
+</form>

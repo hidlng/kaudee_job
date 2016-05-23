@@ -1,0 +1,26 @@
+<h1><%= @title %></h1>
+<% if @model %>
+<table class='table table-condensed'>
+  <tbody>
+    <% @model.attributes.each do |attr_name, attr_value| %>
+    <% if attr_name != 'id' %>
+    <tr>
+      <th><%= attr_name %></th><td><%= attr_value %></td>
+    </tr>
+    <% end %>
+    <% end %>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td></td>
+      <td>
+      <% if not @model.empno %>
+        <a class='btn btn-primary' href='/geno?uid=<%= @model.id%>'>사원번호생성</a> 
+      <% end %>
+        <a class='btn btn-success' href='/<%= @prefix %>/<%= @model.id %>/edit'>Edit</a>
+        <a class='btn btn-danger' data-confirm='really?' data-method='delete' href='/<%= @prefix %>/<%= @model.id %>'>Delete</a>
+      </td>
+    </tr>
+  <tfoot>
+</table>
+<% end %>

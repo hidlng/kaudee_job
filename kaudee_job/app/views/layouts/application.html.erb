@@ -1,14 +1,78 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>KaudeeJob</title>
+  <title>Kaudee</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
 <body>
+<div class="navbar navbar-default navbar-static-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">Kaudee Car</a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="/user">User</a></li>
+        <li><a href="/car">Car</a></li>
+        <li><a href="/category">Category</a></li>
+        <li><a href="/district">District</a></li>
+        <li><a href="/brand">Brand</a></li>
+        <li><a href="/model">Model</a></li>
+        <li><a href="/city">City</a></li>
+        <li><a href="/favorite">Favorite</a></li>
+        <li><a href="/image">Image</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#">Stat</a></li>
+            <li class="divider"></li>
+            <li class="dropdown-header">Admin Page Options</li>
+            <li><a href="admin">Admin Users</a></li>
+            <li><a href="#">Admin Message</a></li>
+          </ul>
+        </li>
+      </ul>
+      <% if session[:user].nil? %>
+      <form class="navbar-form navbar-right" method="post" action="/login">
+        <div class="form-group">
+          <input type="text" class="form-control input-sm" name="email" placeholder="Email" />
+        </div>
+        <div class="form-group">
+          <input type="password" class="form-control input-sm" name="password" placeholder="Password" />
+        </div>
+        <button type="submit" class="btn btn-success btn-sm">Sign In</button>
+      </form>
+      <% else %>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/signout" title="Sign out"><span class="glyphicon glyphicon-star"></span>
+        <%= session[:user] %></a></li>
+      </ul>
+      <% end %>
 
-<%= yield %>
+    </div><!--/.nav-collapse -->
+  </div>
+</div>
+
+<div class='container'>
+  <% flash.each do |type, message| %>
+    <div class="alert alert-danger fade in">
+      <button class="close" data-dismiss="alert">×</button>
+      <%= message %>
+    </div>
+  <% end %>
+
+  <div class='row'>
+    <div class='col-md-12'><%= yield %></div>
+  </div>
+</div>
 
 </body>
 </html>

@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+  <title>Kaudee Reset Password</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <style>
+    html, body{height:100%; margin:0;padding:0}
+     
+    .container-fluid{
+      height:100%;
+      display:table;
+      width: 100%;
+      padding: 0;
+    }
+     
+    .row-fluid {height: 100%; display:table-cell; vertical-align: middle;}
+     
+     
+
+    .centering {
+      float:none;
+      margin:0 auto;
+    }
+  </style>
+</head>
+<body>
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="centering text-center col-md-3">
+    <h1>Kaudee</h1>
+    <h3>Password Reset</h3>
+<%= form_for @user, :url => password_reset_path(params[:id]) do |f| %>
+  <% if @user.errors.any? %>
+    <div class="error_messages">
+      <h2>Form is invalid</h2>
+      <ul>
+        <% for message in @user.errors.full_messages %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="field">
+    <%= f.label :password %>
+    <%= f.password_field :password %>
+  </div>
+  <div class="field">
+    <%= f.label :password_confirmation %>
+    <%= f.password_field :password_confirmation %>
+  </div>
+  <div class="actions"><%= f.submit "Update Password" %></div>
+<% end %>
+    </div>
+  </div>
+</div>
+</body>

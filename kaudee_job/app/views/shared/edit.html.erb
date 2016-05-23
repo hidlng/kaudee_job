@@ -1,0 +1,25 @@
+<h1><%= @title %></h1>
+<% if @model %>
+<form action='/<%= @prefix %>/<%= @model.id %>' method='post'>
+<input type='hidden' name='_method' value='patch' />
+<table class='table table-condensed'>
+  <tbody>
+    <% @model.attributes.each do |attr_name, attr_value| %>
+    <% if attr_name != 'created_at' and attr_name != 'updated_at' and attr_name != 'id' %>
+    <tr>
+      <th><%= attr_name %></th>
+      <td><input type='text' class='form-control' value='<%= attr_value %>' name='<%= attr_name %>' /></td>
+    </tr>
+    <% end %>
+    <% end %>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td></td>
+      <td><input class='btn btn-success' type='submit' /></td>
+    </tr>
+  </tfoot>
+</table>
+</form>
+<% end %>
+
