@@ -4,8 +4,8 @@ module Api
 
       def index
       	@images = @Base.all
-      	if params.has_key?(:car_id)
-      		@images.where("data_id = :arg and gubun = 3", {arg: params[:car_id]})
+      	if params.has_key?(:data_id)
+      		@images.where("data_id = :arg and gubun = 4", {arg: params[:data_id]})
       	end
       	render json: @images
       end
