@@ -2,7 +2,7 @@ class WelcomeController < DefaultController
   #layout "application", except: [:policy, :password]
 
   def index
-    @cars = Job.count
+    @jobs = Job.count
     @users = User.count
   end
 
