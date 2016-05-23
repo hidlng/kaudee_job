@@ -10,6 +10,8 @@ KaudeeJob::Application.routes.draw do
       resources :category
       resources :city
       resources :car
+      resources :job
+      resources :extrauser
       resources :district
       resources :image
       resources :model
@@ -42,13 +44,12 @@ Rails.application.routes.draw do
   resources :market
   resources :room
   resources :user
-  resources :car
   resources :favorite
   resources :image
   resources :category
   resources :district
+  resources :job
+  resources :extrauser
   resources :city
-  resources :brand
-  resources :model
   resources :password_resets
 end
