@@ -1,4 +1,4 @@
-class Extrausers < ActiveRecord::Migration
+class CreateExtrausers < ActiveRecord::Migration
   def change
     create_table :extrausers do |t|
       t.string :postedDate
