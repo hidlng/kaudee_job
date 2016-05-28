@@ -1,49 +1,14 @@
 class MapController < ActionController::Base
   layout "map"
   def list
-    @Base = Car
-    @fields = 'cars.*'
+    @Base = Job
+    @fields = 'jobs.*'
     @models = @Base.select(@fields).where(delyn: "no")
 
     if params.has_key?(:user_id)
       @models = @models.where(user_id: params[:user_id])
     end
-    
-        if params.has_key?(:odoa) 
-          @min = params[:odoa].scan(/\d+/).first
-          @models = @models.where("odometer >= ?", @min)
-        end
-        
-        if params.has_key?(:odob)
-          @max = params[:odob].scan(/\d+/).first
-          @models = @models.where("odometer <= ?", @max)
-        end        
 
-        if params.has_key?(:pricea)
-          @min = params[:pricea].scan(/\d+/).first
-          @models = @models.where("price >= ?", @min)
-        end
-        
-        if params.has_key?(:priceb)
-          @max = params[:priceb].scan(/\d+/).first
-          @models = @models.where("price <= ?", @max)
-        end
-
-
-        if params.has_key?(:brand)
-          @keyword = params[:brand]
-          @models = @models.where("brand = :arg", {arg: @keyword})
-        end
-        
-         if params.has_key?(:model)
-          @keyword = params[:model]
-          @models = @models.where("model = :arg", {arg: @keyword})
-        end
-        
-         if params.has_key?(:newold)
-          @keyword = params[:newold]
-          @models = @models.where("newold = :arg", {arg: @keyword})
-        end
 
         if params.has_key?(:city)
           @city = params[:city]
@@ -58,59 +23,83 @@ class MapController < ActionController::Base
           @models = @models.where("city like :arg or city in (#{@str_city})", {arg: "%#{@city}%"})
         end
 
-    if params.has_key?(:district)
-      @district = params[:district]
-      @finded = District.where("districtname like :arg or district_lao like :arg", {arg: "%#{@district}%"})
-      @dists ||= []
-      @finded.map { |d| @dists << d[:districtname] }
-      @finded.map { |d| @dists << d[:district_lao] }
-      @str_dist = @dists.map { |d| "'#{d}'" } .join(",")
-      @info = @str_dist
-      @models = @models.where("district like :arg or district in (#{@str_dist})", {arg: "%#{@district}%"})
-    end
+        if params.has_key?(:district)
+          @district = params[:district]
+          @finded = District.where("districtname like :arg or district_lao like :arg", {arg: "%#{@district}%"})
+          @dists ||= []
+          @finded.map { |d| @dists << d[:districtname] }
+          @finded.map { |d| @dists << d[:district_lao] }
+          @str_dist = @dists.map { |d| "'#{d}'" } .join(",")
+          @info = @str_dist
+          @models = @models.where("district like :arg or district in (#{@str_dist})", {arg: "%#{@district}%"})
+        end
 
-    if params.has_key?(:bounds)
-      @bounds = JSON(params[:bounds])
-      @models = @models.where("latitude >= :swlat and latitude <= :nelat and longitude >= :swlng and longitude <= :nelng", 
-          {
-            swlat: @bounds[0],
-            nelat: @bounds[2],
-            swlng: @bounds[1],
-            nelng: @bounds[3]
-          })
-    end
+        if params.has_key?(:bounds)
+          @bounds = JSON(params[:bounds])
+          @models = @models.where("latitude >= :swlat and latitude <= :nelat and longitude >= :swlng and longitude <= :nelng", 
+              {
+                swlat: @bounds[0],
+                nelat: @bounds[2],
+                swlng: @bounds[1],
+                nelng: @bounds[3]
+              })
+        end
 
-    if params.has_key?(:lat)
-      @lat = params[:lat]
-      if @lat.to_s.strip.length == 0
-        @models = @modes.where("latitude + 0.1 >= :wlat and latitude - 0.1 <= elat", {wlat: @lat, elat: @lat})
-      end
-    end
-    if params.has_key?(:lng)
-      @lng = params[:lng]
-      if @lng.to_s.strip.length == 0
-        @models = @modes.where("longitude + 0.1 >= :nlng and longitude - 0.1 <= slng", {nlng: @lng, slng: @lng})
-      end
-    end
+          if params.has_key?(:category1)
+            @category1 = params[:category1]
+          end
+          if params.has_key?(:category2)
+            @category1 = params[:category2]
+          end
 
-    @hash = Gmaps4rails.build_markers(@models) do |car, marker|
-      marker.lat car.latitude
-      marker.lng car.longitude
+          @models = @models.where("category1 like :arg or category2 like :category2" , {arg: "%#{@category1}%", category2: "%#{@category2}%"})
+        
+
+          if params.has_key?(:jobtitle)
+            @jobtitle = params[:jobtitle]
+            @models = @models.where("jobtitle like :arg or jobtitle_lao like :arg", {arg: "%#{@jobtitle}%"})
+          end
+          
+           if params.has_key?(:minsalary)
+            @minsalary = params[:minsalary]
+            @models = @models.where("minsalary like :arg", {arg: "%#{@minsalary}%"})
+          end
+          
+            if params.has_key?(:minsalary_unit)
+            @minsalary_unit = params[:minsalary_unit]
+            @models = @models.where("minsalary like :arg", {arg: "%#{@minsalary_unit}%"})
+          end
+          
+           if params.has_key?(:salarytype)
+            @salarytype = params[:salarytype]
+            @models = @models.where("minsalary like :arg", {arg: "%#{@salarytype}%"})
+          end
+          
+           if params.has_key?(:jobtype)
+            @jobtype = params[:jobtype]
+            @models = @models.where("jobtype like :arg", {arg: "%#{@jobtype}%"})
+          end
+
+
+
+    @hash = Gmaps4rails.build_markers(@models) do |job, marker|
+      marker.lat job.latitude
+      marker.lng job.longitude
       marker.picture ({
         "url" => "/mg_house.png",
         "width" => 15,
         "height" => 15 
       })
-      marker.infowindow "<a href='kaudee:/api/v1/car/%d'>%s</a>"%[car.id, car.model]
+      marker.infowindow "<a href='kaudee:/api/v1/job/%d'>%s</a>"%[job.id, job.jobtitle]
     end
   end
 
   def show
-    @cars = Car.find(params[:id])
-    @hash = Gmaps4rails.build_markers(@cars) do |car, marker|
-      marker.lat car.latitude
-      marker.lng car.longitude
-      marker.infowindow car.carname
+    @cars = Job.find(params[:id])
+    @hash = Gmaps4rails.build_markers(@jobs) do |job, marker|
+      marker.lat job.latitude
+      marker.lng job.longitude
+      marker.infowindow job.jobtitle
     end
   end
 

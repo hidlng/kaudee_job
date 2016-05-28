@@ -49,6 +49,41 @@ module Api
               })
         end
 
+          if params.has_key?(:category1)
+            @category1 = params[:category1]
+          end
+          if params.has_key?(:category2)
+            @category1 = params[:category2]
+          end
+
+          @models = @models.where("category1 like :arg or category2 like :category2" , {arg: "%#{@category1}%", category2: "%#{@category2}%"})
+        
+
+          if params.has_key?(:jobtitle)
+            @jobtitle = params[:jobtitle]
+            @models = @models.where("jobtitle like :arg or jobtitle_lao like :arg", {arg: "%#{@jobtitle}%"})
+          end
+          
+           if params.has_key?(:minsalary)
+            @minsalary = params[:minsalary]
+            @models = @models.where("minsalary like :arg", {arg: "%#{@minsalary}%"})
+          end
+          
+            if params.has_key?(:minsalary_unit)
+            @minsalary_unit = params[:minsalary_unit]
+            @models = @models.where("minsalary like :arg", {arg: "%#{@minsalary_unit}%"})
+          end
+          
+           if params.has_key?(:salarytype)
+            @salarytype = params[:salarytype]
+            @models = @models.where("minsalary like :arg", {arg: "%#{@salarytype}%"})
+          end
+          
+           if params.has_key?(:jobtype)
+            @jobtype = params[:jobtype]
+            @models = @models.where("jobtype like :arg", {arg: "%#{@jobtype}%"})
+          end
+
 
         @models = paginate @models.order("id desc"), per_page: 10
   
